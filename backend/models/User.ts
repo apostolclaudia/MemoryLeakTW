@@ -1,7 +1,8 @@
 import { db } from "../config/db";
 import Sequelize from "sequelize";
 
-export interface userAttributes {
+export interface UserAttributes {
+  id: number;
   username: string;
   email: string;
   password: string;
@@ -11,7 +12,7 @@ export interface userAttributes {
   lastName?: string;
 }
 
-export interface UserInterface extends Sequelize.Model, userAttributes {}
+export interface UserInterface extends Sequelize.Model, UserAttributes {}
 
 export const User: Sequelize.ModelCtor<UserInterface> = db.define(
   "user",
