@@ -1,6 +1,7 @@
 <template>
-  <q-page class="column justify-center items-center">
-    <img alt="LeekIt logo" src="leek2.png" style="width: 200px" />
+  <q-page class="flex flex-center">
+    <!-- <img alt="Quasar logo" src="leek2.png" style="height: 200px" /> -->
+    add product
   </q-page>
 </template>
 
