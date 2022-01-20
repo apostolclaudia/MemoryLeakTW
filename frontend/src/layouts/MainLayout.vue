@@ -12,7 +12,7 @@
         />
 
         <q-space />
-          <q-tabs class="tabs-class" align="left" indicator-color="transparent">
+        <q-tabs class="tabs-class" align="left" indicator-color="transparent">
           <q-route-tab
             v-for="link in essentialLinks"
             :key="link.title"
@@ -22,11 +22,9 @@
             active-class="text-primary"
             exact
           />
-          
         </q-tabs>
-
       </q-toolbar>
-            <div class="stroke-menu"></div>
+      <div class="stroke-menu"></div>
     </q-header>
 
     <q-drawer
@@ -37,12 +35,13 @@
       :breakpoint="500"
       class="text-secondary"
     >
-    <q-scroll-area class="fit">
+      <q-scroll-area class="fit">
         <q-list padding class="menu-list">
           <EssentialLink
             v-for="link in essentialLinks"
             :key="link.title"
-            v-bind="link" />
+            v-bind="link"
+          />
         </q-list>
       </q-scroll-area>
     </q-drawer>
@@ -54,62 +53,62 @@
 </template>
 
 <script lang="ts">
-import EssentialLink from 'components/EssentialLink.vue'
+import EssentialLink from "components/EssentialLink.vue";
 
 const linksList = [
   {
-    title: 'Home',
-    icon: 'home',
-    link: '/'
+    title: "Home",
+    icon: "home",
+    link: "/",
   },
   {
     title: "What's cooking?",
-    icon: 'home',
-    link: '/cooking'
+    icon: "home",
+    link: "/cooking",
   },
   {
-    title: 'Friends',
-    icon: 'home',
-    link: '/friends'
+    title: "Friends",
+    icon: "fas fa-handshake",
+    link: "/friends",
   },
   {
-    title: 'Add product',
-    icon: 'home',
-    link: '/add-product'
+    title: "Add product",
+    icon: "home",
+    link: "/add-product",
   },
   {
-    title: 'Users',
-    icon: 'home',
-    link: '/users'
+    title: "Users",
+    icon: "fas fa-users",
+    link: "/users",
   },
   {
-    title: 'Account',
-    icon: 'home',
-    link: '/account'
+    title: "Account",
+    icon: "fas fa-user",
+    link: "/account",
   },
 ];
 
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-  name: 'MainLayout',
+  name: "MainLayout",
 
   components: {
-    EssentialLink
+    EssentialLink,
   },
 
-  setup () {
-    const drawerOpen = ref(false)
+  setup() {
+    const drawerOpen = ref(false);
 
     return {
       essentialLinks: linksList,
       drawerOpen,
-      toggleDrawer () {
-        drawerOpen.value = !drawerOpen.value
-      }
-    }
-  }
-})
+      toggleDrawer() {
+        drawerOpen.value = !drawerOpen.value;
+      },
+    };
+  },
+});
 </script>
 
 <style lang="scss">
