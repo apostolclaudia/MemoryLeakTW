@@ -54,6 +54,7 @@
 </template>
 
 <script lang="ts">
+//@ts-ignore
 import EssentialLink from 'components/EssentialLink.vue'
 
 const linksList = [
@@ -114,8 +115,8 @@ export default defineComponent({
 
 <style lang="scss">
 .header-class {
-  font-family: "Poppins";
-  font-weight: 500;
+  font-family: "Roboto";
+  font-weight: 700;
 }
 
 .stroke-menu {
