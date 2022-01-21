@@ -1,6 +1,8 @@
 import { Response, Request } from "express";
 import { Product } from "../models/Product";
+import { ExtendedRequest } from "../types/expressExtra";
 import { error500 } from "../utils/serverMessages";
+
 
 export const productController = {
   getAll: async (req: Request, res: Response) => {
@@ -26,13 +28,13 @@ export const productController = {
       return error500(res, error);
     }
   },
-  addProduct: async (req: Request, res: Response) => {
+  addProduct: async (req: ExtendedRequest, res: Response) => {
     try {
-      const { name, expirationDate, categoryId, userId, quantity } = req.body;
-      if (!name || !categoryId || !userId || !quantity) {
+      const { name, categoryId, quantity } = req.body;
+      if (!name || !categoryId || !quantity) {
         return res.sendStatus(400);
       }
-      const product = await Product.create(req.body);
+      const product = await Product.create({...req.body, userId: req.user});
       return res
         .status(200)
         .json({ product, message: "Product added succesfully!" });
@@ -40,9 +42,9 @@ export const productController = {
       return error500(res, error);
     }
   },
-  getUserProducts: async (req: Request, res: Response) => {
+  getUserProducts: async (req: ExtendedRequest, res: Response) => {
     try {
-      const { userId } = req.params;
+      const userId = req.user;
       if (!userId) {
         return res.sendStatus(400);
       }
@@ -56,7 +58,7 @@ export const productController = {
       return error500(res, error);
     }
   },
-  updateProduct: async (req: Request, res: Response) => {
+  updateProduct: async (req: ExtendedRequest, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       if (!id) {
@@ -65,6 +67,9 @@ export const productController = {
       let product = await Product.findByPk(id);
       if (!product) {
         return res.sendStatus(404);
+      }
+      if(product.userId !== req.user) {
+        return res.sendStatus(403);
       }
 
       const { name, isAvailable, expirationDate, quantity, categoryId } =
@@ -84,9 +89,9 @@ export const productController = {
       return error500(res, error);
     }
   },
-  deleteProduct: async (req: Request, res: Response) => {
+  deleteProduct: async (req: ExtendedRequest, res: Response) => {
     try {
-      const id = parseInt(req.params.id);
+      const id = req.user;
       if (!id) {
         return res.sendStatus(400);
       }
@@ -101,7 +106,7 @@ export const productController = {
       return error500(res, error);
     }
   },
-  claimProduct: async (req: Request, res: Response) => {
+  claimProduct: async (req: ExtendedRequest, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       if (!id) {
@@ -116,7 +121,7 @@ export const productController = {
         return res.status(400).json({message: "This product was already claimed"})
       }
 
-      product.claimedBy = 1; // TODO Change this to req.user
+      product.claimedBy = req.user;
       await product.save();
 
       return res.status(200).json({ message: "Product claimed!" });
@@ -124,7 +129,7 @@ export const productController = {
       return error500(res, error);
     }
   },
-  unclaimProduct: async (req: Request, res: Response) => {
+  unclaimProduct: async (req: ExtendedRequest, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       if (!id) {
@@ -137,6 +142,10 @@ export const productController = {
 
       if(!product.claimedBy) {
         return res.sendStatus(400)
+      }
+
+      if(product.claimedBy !== req.user) {
+        return res.sendStatus(403)
       }
 
       product.claimedBy = null;

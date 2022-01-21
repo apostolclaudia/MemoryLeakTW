@@ -3,6 +3,8 @@ import { Op } from "sequelize";
 import { Product } from "../models/Product";
 import { User } from "../models/User";
 import { customErrorMessage, error500 } from "../utils/serverMessages";
+import bcrypt from 'bcryptjs';
+import { generateAccessToken } from "../utils/jwt";
 
 export const userController = {
   getAll: async (req: Request, res: Response) => {
@@ -63,17 +65,21 @@ export const userController = {
           "There is already a user registered with this username/email."
         ); // Don't want to say this email is in use
       }
-      user = await User.create(req.body);
-      return res.status(201).json({ message: "Account created succesfully!", user });
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      user = await User.create({...req.body, password: hashedPassword});
+      const access_token = generateAccessToken(user.id)
+      return res.status(201).json({ message: "Account created succesfully!", user, access_token });
     } catch (error) {
       return error500(res, error);
     }
   },
   updateUser: async (req: Request, res: Response) => {
     try {
+      //@ts-ignore
+      const id = req.user;
       const { username, firstName, lastName } = req.body;
-      const userId = parseInt(req.params.id);
-      let user = await User.findByPk(userId);
+      let user = await User.findByPk(id);
       if(!user) {
         return customErrorMessage(res, 404, "User not found!")
       }
@@ -81,7 +87,7 @@ export const userController = {
         return customErrorMessage(res, 400, "Username is missing!");
       }
       const userWithUsername = await User.findOne({ where: { username } });
-      if (userWithUsername && userWithUsername.id !== userId) {
+      if (userWithUsername && userWithUsername.id !== id) {
         return customErrorMessage(res, 403, "Username already in use!");
       }
       user.username = username;
@@ -96,11 +102,8 @@ export const userController = {
   },
   deleteUser: async (req: Request, res: Response) => {
     try {
-      const id = parseInt(req.params.id);
-      if (!id) {
-        return res.sendStatus(400);
-      }
-      const user = await User.findByPk(req.params.id);
+      //@ts-ignore
+      const user = await User.findByPk(req.user);
       if (!user) {
         return res.sendStatus(400);
       }
@@ -111,4 +114,24 @@ export const userController = {
       return error500(res, error);
     }
   },
+  loginUser: async (req: Request, res: Response) => {
+    try {
+      const {username, password} = req.body;
+      if(!username || !password) {
+        return res.sendStatus(400);
+      }
+      const user = await User.findOne({where: {username}})
+      if(!user){
+        return customErrorMessage(res, 403, "Invalid username/password!");
+      }
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if(!passwordMatch) {
+        return customErrorMessage(res, 403, "Invalid username/password!");
+      }
+      const access_token = generateAccessToken(user.id)
+      return res.status(200).json({ message: "Logged in!", user, access_token }); 
+    } catch (error) {
+      return error500(res, error);
+    }
+  }
 };

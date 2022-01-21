@@ -21,22 +21,25 @@ export const User: Sequelize.ModelCtor<UserInterface> = db.define(
       type: Sequelize.STRING,
       unique: true,
       allowNull: false,
+      validate: {
+        len: [3, 50]
+      }
     },
     email: {
       type: Sequelize.STRING,
       unique: true,
       allowNull: false,
+      validate: {
+        len: [3, 50]
+      }
     },
     password: {
       type: Sequelize.STRING,
-      validate: {
-        len: [6, 20],
-      },
       allowNull: false,
     },
     isActive: {
       type: Sequelize.BOOLEAN,
-      defaultValue: false,
+      defaultValue: true,
     },
     isAdmin: {
       type: Sequelize.BOOLEAN,
@@ -44,9 +47,15 @@ export const User: Sequelize.ModelCtor<UserInterface> = db.define(
     },
     firstName: {
       type: Sequelize.STRING,
+      validate: {
+        len: [1, 50]
+      }
     },
     lastName: {
       type: Sequelize.STRING,
+      validate: {
+        len: [1, 50]
+      }
     },
   },
   { timestamps: true }

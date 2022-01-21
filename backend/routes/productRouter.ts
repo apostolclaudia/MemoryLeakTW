@@ -8,7 +8,7 @@ productRouter.get('/:id/', productController.getbyId)
 productRouter.post('', productController.addProduct)
 productRouter.patch('/:id/', productController.updateProduct)
 productRouter.delete('/:id/', productController.deleteProduct)
-productRouter.get('/user/:userId/', productController.getUserProducts)
+productRouter.get('/user/', productController.getUserProducts)
 productRouter.post('/claim/:id/', productController.claimProduct)
 productRouter.delete('/claim/:id/', productController.unclaimProduct)
 
