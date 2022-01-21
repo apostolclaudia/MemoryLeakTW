@@ -13,19 +13,26 @@
     </q-input> -->
 
     <form @submit.prevent="simulateSubmit" class="search-class">
-      <q-input filled hint="Search new friends" v-model="test" />
-      <div class="row justify-end">
-        <q-btn
-          type="submit"
-          :loading="submitting"
-          label="SEARCH"
-          class="q-mt-md"
-          color="green"
-        >
-          <template v-slot:loading>
-            <q-spinner-facebook />
-          </template>
-        </q-btn>
+      <div class="fit row inline justify-end items-top">
+        <q-input
+          filled
+          hint="Search new friends"
+          v-model="test"
+          style="width: 400px"
+        />
+        <div class="col-12 offset-1 col-md-4">
+          <q-btn
+            type="submit"
+            :loading="submitting"
+            label="SEARCH"
+            class="q-mt-mb"
+            color="green"
+          >
+            <template v-slot:loading>
+              <q-spinner-facebook />
+            </template>
+          </q-btn>
+        </div>
       </div>
     </form>
 
@@ -43,19 +50,25 @@
           v-model="category"
           label="Category"
           :options="options"
-          style="width: 200px"
+          style="width: 130px
+          height: 100px"
           behavior="menu"
         />
+        <q-btn class="btn-add-friend" color="green" label="Add friend" />
       </div>
     </div>
 
-    <q-btn class="btn-friends" outline color="secondary" label="VEGETARIENI" />
     <q-btn
       class="btn-friends"
       outline
       color="secondary"
-      label="ZACUSCA LOVERS"
-    />
+      label="VEGETARIENI"
+      to="/group/vegetarieni"
+    >
+    </q-btn>
+    <q-page-container>
+      <router-view />
+    </q-page-container>
   </q-page>
 </template>
 
@@ -87,7 +100,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .btn-friends {
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 .search-class {
@@ -96,7 +109,16 @@ export default defineComponent({
   background: white;
 }
 
+.select-friends-group {
+  margin-top: 25px;
+}
+
+.btn-add-friend {
+  margin-top: 25px;
+}
+
 .card-class {
+  margin-top: 25px;
   width: 90%;
   height: 200px;
   padding: 10px;

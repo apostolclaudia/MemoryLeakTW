@@ -86,7 +86,7 @@ export default defineComponent({
 }
 
 .fridge-category-class {
-  margin-top: 80px;
+  margin-top: 50px;
   width: 300px;
   border-color: $secondary;
   border-width: 2.5px;
@@ -100,6 +100,6 @@ export default defineComponent({
 }
 
 .fridge-card {
-  margin-top: 80px;
+  margin-top: 60px;
 }
 </style>
