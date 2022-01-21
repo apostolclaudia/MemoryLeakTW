@@ -64,7 +64,7 @@ const linksList = [
   },
   {
     title: "What's cooking?",
-    icon: "home",
+    icon: "fas fa-seedling",
     link: "/cooking",
   },
   {
@@ -74,7 +74,7 @@ const linksList = [
   },
   {
     title: "Add product",
-    icon: "home",
+    icon: "fas fa-store",
     link: "/add-product",
   },
   {
@@ -121,7 +121,7 @@ export default defineComponent({
 .stroke-menu {
   background-color: $secondary;
   width: 100%;
-  height: 2.5px;
+  height: 3px;
 }
 
 @media only screen and (max-width: 900px) {
