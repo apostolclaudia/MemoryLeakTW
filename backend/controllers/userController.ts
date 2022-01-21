@@ -40,6 +40,7 @@ export const userController = {
         where: {
           username,
         },
+        include: [Product]
       });
       if (!user) {
         return res.status(404).json({ message: "User not found" });
