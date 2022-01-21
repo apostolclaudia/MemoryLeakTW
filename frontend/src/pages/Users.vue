@@ -1,6 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
-    <!-- <img alt="Quasar logo" src="leek2.png" style="height: 200px" /> -->
+  <q-page class="column items-center">
     frate frate dar branza e pe bani
   </q-page>
 </template>

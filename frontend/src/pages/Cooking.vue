@@ -1,7 +1,5 @@
 <template>
   <q-page class="column items-center">
-    <!-- <img alt="Quasar logo" src="leek2.png" style="height: 200px" /> -->
-
     <q-card
       class="category-class text-white text-center"
       round

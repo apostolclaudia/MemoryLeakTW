@@ -2,7 +2,6 @@
   <q-page class="column justify-center items-center">
     <img alt="LeekIt logo" src="leek2.png" style="width: 300px" />
     <q-card flat bordered class="card-class text-center" color="secondary">
-      <!-- <div class="stroke-menu rotate-90"></div> -->
       <q-card-section>
         Why waste food when you can make something new out of it?
       </q-card-section>

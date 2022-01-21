@@ -1,6 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
-    <!-- <img alt="Quasar logo" src="leek2.png" style="height: 200px" /> -->
+  <q-page class="column items-center">
     <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
       <q-input
         filled
