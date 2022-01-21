@@ -1,10 +1,6 @@
 <template>
-  <q-page class="flex flex-center">
-    <q-form
-      @submit="onSubmit"
-      @reset="onReset"
-      class="q-gutter-md"
-    >
+  <q-page class="column items-center">
+    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
       <q-input
         outlined
         v-model="name"
@@ -44,22 +40,28 @@
       ]"/>
 
       <div>
-        <q-btn label="Submit" type="submit" color="primary"/>
-        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+        <q-btn label="Submit" type="submit" color="primary" />
+        <q-btn
+          label="Reset"
+          type="reset"
+          color="primary"
+          flat
+          class="q-ml-sm"
+        />
       </div>
     </q-form>
   </q-page>
 </template>
 
 <script>
-import { useQuasar } from 'quasar'
-import { ref } from 'vue'
+import { useQuasar } from "quasar";
+import { ref } from "vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "PageAddProduct",
-  setup () {
-    const $q = useQuasar()
+  setup() {
+    const $q = useQuasar();
 
     const name = ref(null)
     const cbAvailable = ref(false)

@@ -1,29 +1,31 @@
 <template>
   <q-page class="column items-center">
-
-<q-card
-      class="my-card text-white"
-      style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%)"
+    <q-card
+      class="category-class text-white text-center"
+      round
+      flat
+      bordered
+      style="background: #6ab654"
     >
       <q-card-section>
-        <div class="text-h6">NUME CATEGORIE</div>
+        <div class="text-h6">LACTATE</div>
       </q-card-section>
     </q-card>
 
-    <q-card flat bordered class="my-card bg-grey-1">
+    <q-card flat bordered class="food-cards">
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
-            <div class="text-h6">NUME PRODUS</div>
-            <div class="text-subtitle2">termen expirare</div>
+            <div class="text-h6">LAPTE</div>
+            <div class="text-subtitle2">Expiration date: 25/01/2022</div>
           </div>
 
           <div class="col-auto">
-            <q-btn color="grey-7" round flat icon="more_vert">
+            <q-btn color="$secondary" round flat icon="more_vert">
               <q-menu cover auto-close>
                 <q-list>
                   <q-item clickable>
-                    <q-item-section>Remove Card</q-item-section>
+                    <q-item-section>Remove product</q-item-section>
                   </q-item>
                   <q-item clickable>
                     <q-item-section>Share</q-item-section>
@@ -53,17 +55,28 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "PageCooking",
-  setup () {
+  setup() {
     return {
-      lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    }
-  }
+      lorem:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    };
+  },
 });
 </script>
 
 <style lang="scss" scoped>
-.my-card{
+.category-class {
+  margin-top: 80px;
   width: 100%;
-  max-width: 500px;
+  max-width: 400px;
+  border-color: $secondary;
+  border-width: 2.5px;
+}
+.food-cards {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 400px;
+  border-color: $secondary;
+  border-width: 2.5px;
 }
 </style>
