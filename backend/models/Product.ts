@@ -22,6 +22,9 @@ export const Product: Sequelize.ModelCtor<ProductInterface> = db.define(
     name: {
       type: Sequelize.STRING,
       allowNull: false,
+      validate: {
+        len: [3, 50]
+      }
     },
     isAvailable: {
       type: Sequelize.BOOLEAN,
@@ -33,7 +36,10 @@ export const Product: Sequelize.ModelCtor<ProductInterface> = db.define(
     },
     quantity: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [3, 50]
+      }
     },
     claimedBy: {
       type: Sequelize.INTEGER,

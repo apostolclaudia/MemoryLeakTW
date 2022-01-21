@@ -2,6 +2,7 @@ import { error500 } from "./../utils/serverMessages";
 import { User } from "./../models/User";
 import { Group } from "./../models/Group";
 import { Response, Request } from "express";
+import { ExtendedRequest } from "../types/expressExtra";
 
 export const groupController = {
   getAll: async (req: Request, res: Response) => {
@@ -28,20 +29,20 @@ export const groupController = {
       return error500(res, error);
     }
   },
-  addGroup: async (req: Request, res: Response) => {
+  addGroup: async (req: ExtendedRequest, res: Response) => {
     try {
       const { name } = req.body;
       if (!name) {
         return res.sendStatus(400);
       }
-      const group = await Group.create(req.body);
+      const group = await Group.create({...req.body, createdBy: req.user });
 
       return res.status(200).json({ group, message: "Group created!" });
     } catch (error) {
       return error500(res, error);
     }
   },
-  updateGroup: async (req: Request, res: Response) => {
+  updateGroup: async (req: ExtendedRequest, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       if (!id) {
@@ -54,6 +55,9 @@ export const groupController = {
       let group = await Group.findByPk(id);
       if (!group) {
         return res.sendStatus(404);
+      }
+      if(group.createdBy !== req.user) {
+        return res.sendStatus(403);
       }
       group.name = name;
       group = await group.save();

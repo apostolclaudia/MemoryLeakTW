@@ -5,6 +5,7 @@ import { User, UserInterface } from "./User";
 export interface GroupAttributes {
   id: number;
   name: string;
+  createdBy: number;
 }
 
 type AddUsers = number[] | UserInterface[] | (number|UserInterface)[];
@@ -21,7 +22,14 @@ export const Group: Sequelize.ModelCtor<GroupInterface> = db.define("group", {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
+    validate: {
+      len: [2, 50]
+    }
   },
+  createdBy: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  }
 });
 
 Group.belongsToMany(User, { through: UserGroup });
