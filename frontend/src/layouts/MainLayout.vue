@@ -78,11 +78,6 @@ const linksList = [
     link: "/add-product",
   },
   {
-    title: "Users",
-    icon: "fas fa-users",
-    link: "/users",
-  },
-  {
     title: "Account",
     icon: "fas fa-user",
     link: "/account",

@@ -1,13 +1,25 @@
 <template>
   <q-page class="column items-center">
     <q-card
+      class="fridge-category-class text-secondary text-center"
+      round
+      flat
+      bordered
+      style="background: #ffbdb5"
+    >
+      <q-card-section>
+        <div class="text-h6">Frigiderul lui Vasile</div>
+      </q-card-section>
+    </q-card>
+
+    <q-card
       class="category-class text-white text-center"
       round
       flat
       bordered
       style="background: #6ab654"
     >
-      <q-card-section>
+      <q-card-section class="food-category-card">
         <div class="text-h6">LACTATE</div>
       </q-card-section>
     </q-card>
@@ -66,9 +78,16 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .category-class {
-  margin-top: 80px;
+  margin-top: 20px;
   width: 100%;
   max-width: 400px;
+  border-color: $secondary;
+  border-width: 2.5px;
+}
+
+.fridge-category-class {
+  margin-top: 80px;
+  width: 300px;
   border-color: $secondary;
   border-width: 2.5px;
 }
@@ -78,5 +97,9 @@ export default defineComponent({
   max-width: 400px;
   border-color: $secondary;
   border-width: 2.5px;
+}
+
+.fridge-card {
+  margin-top: 80px;
 }
 </style>
