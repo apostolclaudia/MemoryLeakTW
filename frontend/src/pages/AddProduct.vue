@@ -1,6 +1,5 @@
 <template>
   <q-page class="flex flex-center">
-    <!-- <img alt="Quasar logo" src="leek2.png" style="height: 200px" /> -->
     <q-form
       @submit="onSubmit"
       @reset="onReset"
@@ -67,7 +66,6 @@ export default defineComponent({
     const date = ref(null)
     const quantity = ref(null)
     const category = ref(null)
-    const accept = ref(false)
 
     return {
       name,
@@ -78,7 +76,6 @@ export default defineComponent({
       options: [
         'Lactate', 'Carne', 'Oleaginoase', 'Congelate'
       ],
-      accept,
 
       onSubmit () {
           $q.notify({
@@ -95,7 +92,6 @@ export default defineComponent({
         date.value = null
         quantity.value = null
         category.value = null
-        accept.value = false
       }
     }
   }

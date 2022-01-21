@@ -1,6 +1,5 @@
 <template>
   <q-page class="column items-center">
-    <!-- <img alt="Quasar logo" src="leek2.png" style="height: 200px" /> -->
 
 <q-card
       class="my-card text-white"
@@ -62,8 +61,9 @@ export default defineComponent({
 });
 </script>
 
-<style lang="sass" scoped>
-.my-card
-  width: 100%
-  max-width: 500px
+<style lang="scss" scoped>
+.my-card{
+  width: 100%;
+  max-width: 500px;
+}
 </style>
