@@ -1,42 +1,49 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
+    <q-header class="header-class">
+      <q-toolbar class="bg-white text-secondary">
         <q-btn
           flat
           dense
           round
           icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
+          class="q-mr-sm text-secondary"
+          @click="toggleDrawer"
         />
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-space />
+        <q-tabs class="tabs-class" align="left" indicator-color="transparent">
+          <q-route-tab
+            v-for="link in essentialLinks"
+            :key="link.title"
+            :to="link.link"
+            no-caps
+            :label="link.title"
+            active-class="text-primary"
+            exact
+          />
+        </q-tabs>
       </q-toolbar>
+      <div class="stroke-menu"></div>
     </q-header>
 
     <q-drawer
-      v-model="leftDrawerOpen"
+      v-model="drawerOpen"
       show-if-above
       bordered
+      :width="200"
+      :breakpoint="500"
+      class="text-secondary"
     >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
+      <q-scroll-area class="fit">
+        <q-list padding class="menu-list">
+          <EssentialLink
+            v-for="link in essentialLinks"
+            :key="link.title"
+            v-bind="link"
+          />
+        </q-list>
+      </q-scroll-area>
     </q-drawer>
 
     <q-page-container>
@@ -46,72 +53,80 @@
 </template>
 
 <script lang="ts">
-import EssentialLink from 'components/EssentialLink.vue'
+//@ts-ignore
+import EssentialLink from "components/EssentialLink.vue";
 
 const linksList = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
+    title: "Home",
+    icon: "home",
+    link: "/",
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
+    title: "What's cooking?",
+    icon: "fas fa-seedling",
+    link: "/cooking",
   },
   {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
+    title: "Friends",
+    icon: "fas fa-handshake",
+    link: "/friends",
   },
   {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
+    title: "Add product",
+    icon: "fas fa-store",
+    link: "/add-product",
   },
   {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
+    title: "Users",
+    icon: "fas fa-users",
+    link: "/users",
   },
   {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
+    title: "Account",
+    icon: "fas fa-user",
+    link: "/account",
   },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
 ];
 
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-  name: 'MainLayout',
+  name: "MainLayout",
 
   components: {
-    EssentialLink
+    EssentialLink,
   },
 
-  setup () {
-    const leftDrawerOpen = ref(false)
+  setup() {
+    const drawerOpen = ref(false);
 
     return {
       essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
-})
+      drawerOpen,
+      toggleDrawer() {
+        drawerOpen.value = !drawerOpen.value;
+      },
+    };
+  },
+});
 </script>
+
+<style lang="scss">
+.header-class {
+  font-family: "Roboto";
+  font-weight: 700;
+}
+
+.stroke-menu {
+  background-color: $secondary;
+  width: 100%;
+  height: 3px;
+}
+
+@media only screen and (max-width: 900px) {
+  .tabs-class {
+    display: none;
+  }
+}
+</style>
