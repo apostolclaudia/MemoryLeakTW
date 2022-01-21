@@ -1,6 +1,6 @@
 <template>
   <q-page class="column items-center">
-    <q-input
+    <!-- <q-input
       class="search-class"
       v-model="search"
       filled
@@ -10,74 +10,96 @@
       <template v-slot:append>
         <q-icon name="search" />
       </template>
-    </q-input>
+    </q-input> -->
 
-    <q-card flat bordered class="card-class text-center" color="secondary">
-      <!-- <div class="stroke-menu rotate-90"></div> -->
-      <q-card-section> @claudiaanic </q-card-section>
-    </q-card>
+    <form @submit.prevent="simulateSubmit" class="search-class">
+      <q-input filled hint="Search new friends" v-model="test" />
+      <div class="row justify-end">
+        <q-btn
+          type="submit"
+          :loading="submitting"
+          label="SEARCH"
+          class="q-mt-md"
+          color="green"
+        >
+          <template v-slot:loading>
+            <q-spinner-facebook />
+          </template>
+        </q-btn>
+      </div>
+    </form>
 
-    <q-card
-      class="category-class text-white text-center"
-      round
-      flat
-      bordered
-      style="background: #6ab654"
-    >
-      <q-card-section>
-        <div class="text-h6">VEGETARIENI</div>
-      </q-card-section>
-    </q-card>
-    <q-card
-      class="category-class2 text-white text-center"
-      round
-      flat
-      bordered
-      style="background: #6ab654"
-    >
-      <q-card-section>
-        <div class="text-h6">ZACUSCA LOVERS</div>
-      </q-card-section>
-    </q-card>
+    <div class="fit row inline justify-center items-top">
+      <div class="col-12 offset-2 col-md-4">
+        <q-card flat bordered class="card-class text-center">
+          <q-card-section> @claudiaanic </q-card-section>
+        </q-card>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <q-select
+          class="select-friends-group"
+          outlined
+          v-model="category"
+          label="Category"
+          :options="options"
+          style="width: 200px"
+          behavior="menu"
+        />
+      </div>
+    </div>
+
+    <q-btn class="btn-friends" outline color="secondary" label="VEGETARIENI" />
+    <q-btn
+      class="btn-friends"
+      outline
+      color="secondary"
+      label="ZACUSCA LOVERS"
+    />
   </q-page>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-
+import { ref } from "vue";
 export default defineComponent({
-  name: "PageIndex",
+  setup() {
+    const test = defineComponent("");
+    const submitting = defineComponent(false);
+    const category = ref(null);
+
+    function simulateSubmit() {
+      submitting.value = true;
+      setTimeout(() => {
+        submitting.value = false;
+      }, 3000);
+    }
+    return {
+      test,
+      submitting,
+      simulateSubmit,
+      category,
+      options: ["Vegetarieni", "Zacusa lovers", "New group"],
+    };
+  },
 });
 </script>
 
 <style lang="scss" scoped>
-.category-class {
-  margin-top: 30px;
-  width: 100%;
-  max-width: 400px;
-  border-color: $secondary;
-  border-width: 2.5px;
-}
-
-.category-class2 {
-  margin-top: 30px;
-  width: 100%;
-  max-width: 400px;
-  border-color: $secondary;
-  border-width: 2.5px;
+.btn-friends {
+  margin-top: 20px;
 }
 
 .search-class {
-  margin-top: 80px;
+  margin-top: 50px;
   width: 65%;
   background: white;
 }
 
 .card-class {
-  stroke: $secondary;
-  stroke-width: 5px;
-  margin-top: 10px;
-  width: 50%;
+  width: 90%;
+  height: 200px;
+  padding: 10px;
   max-width: 300px;
   border-color: $secondary;
   border-width: 3px;
