@@ -1,8 +1,8 @@
 import { Response, Request } from "express";
 import { Product } from "../models/Product";
+import { User } from "../models/User";
 import { ExtendedRequest } from "../types/expressExtra";
 import { error500 } from "../utils/serverMessages";
-
 
 export const productController = {
   getAll: async (req: Request, res: Response) => {
@@ -34,7 +34,7 @@ export const productController = {
       if (!name || !categoryId || !quantity) {
         return res.sendStatus(400);
       }
-      const product = await Product.create({...req.body, userId: req.user});
+      const product = await Product.create({ ...req.body, userId: req.user });
       return res
         .status(200)
         .json({ product, message: "Product added succesfully!" });
@@ -58,6 +58,28 @@ export const productController = {
       return error500(res, error);
     }
   },
+  getUserProductsByUsername: async (req: ExtendedRequest, res: Response) => {
+    try {
+      const username = req.params.username;
+      if (!username) {
+        res.sendStatus(400);
+      }
+      const user = await User.findOne({
+        where: {
+          username,
+        },
+      });
+      const products = await Product.findAll({
+        where: {
+          userId: user.id
+        },
+      });
+      return res.json(products);
+
+    } catch (error) {
+      return error500(res, error);
+    }
+  },
   updateProduct: async (req: ExtendedRequest, res: Response) => {
     try {
       const id = parseInt(req.params.id);
@@ -68,7 +90,7 @@ export const productController = {
       if (!product) {
         return res.sendStatus(404);
       }
-      if(product.userId !== req.user) {
+      if (product.userId !== req.user) {
         return res.sendStatus(403);
       }
 
@@ -117,8 +139,10 @@ export const productController = {
         return res.sendStatus(404);
       }
 
-      if(product.claimedBy) {
-        return res.status(400).json({message: "This product was already claimed"})
+      if (product.claimedBy) {
+        return res
+          .status(400)
+          .json({ message: "This product was already claimed" });
       }
 
       product.claimedBy = req.user;
@@ -140,20 +164,18 @@ export const productController = {
         return res.sendStatus(404);
       }
 
-      if(!product.claimedBy) {
-        return res.sendStatus(400)
+      if (!product.claimedBy) {
+        return res.sendStatus(400);
       }
 
-      if(product.claimedBy !== req.user) {
-        return res.sendStatus(403)
+      if (product.claimedBy !== req.user) {
+        return res.sendStatus(403);
       }
 
       product.claimedBy = null;
-      await product.save()
+      await product.save();
 
-      return res.status(200).json({message: "Product unclaimed"})
-    } catch (error) {
-      
-    }
-  }
+      return res.status(200).json({ message: "Product unclaimed" });
+    } catch (error) {}
+  },
 };
