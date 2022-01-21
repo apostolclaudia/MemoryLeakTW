@@ -93,6 +93,7 @@
 
 <script>
 import { useQuasar } from "quasar";
+import { useProducts } from "src/module/useProducts";
 import { ref } from "vue";
 import { defineComponent } from "vue";
 
@@ -101,11 +102,22 @@ export default defineComponent({
   setup() {
     const $q = useQuasar();
 
-    const name = ref(null);
+    const name = ref("");
     const cbAvailable = ref(false);
-    const date = ref(null);
-    const quantity = ref(null);
-    const category = ref(null);
+    const date = ref("");
+    const quantity = ref("");
+    const options = ["Lactate", "Carne", "Oleaginoase", "Congelate"];
+    const category = ref(options[0]);
+
+    const { addProduct } = useProducts();
+
+    const onSubmit = async () => {
+      await addProduct(
+        name.value,
+        options.indexOf(category.value) + 1,
+        quantity.value
+      );
+    };
 
     return {
       name,
@@ -113,23 +125,14 @@ export default defineComponent({
       date,
       quantity,
       category,
-      options: ["Lactate", "Carne", "Oleaginoase", "Congelate"],
-
-      onSubmit() {
-        $q.notify({
-          color: "green-4",
-          textColor: "white",
-          icon: "cloud_done",
-          message: "Submitted",
-        });
-      },
-
+      options,
+      onSubmit,
       onReset() {
-        name.value = null;
+        name.value = "";
         cbAvailable.value = false;
-        date.value = null;
-        quantity.value = null;
-        category.value = null;
+        date.value = "";
+        quantity.value = "";
+        category.value = "";
       },
     };
   },

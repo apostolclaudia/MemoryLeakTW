@@ -15,7 +15,7 @@ const state = reactive<StateInterface>({
 export const useProducts = () => {
   const getProductsForUser = async (username: string) => {
     try {
-      const response = await get(`products/${username}/`);
+      const response = await get(`product/${username}/`);
       if (response.status === 200) {
         state.products = response.data.products;
       } else {
@@ -30,7 +30,7 @@ export const useProducts = () => {
     quantity: string
   ) => {
     try {
-      const response = await post("/products/", { name, categoryId, quantity });
+      const response = await post("/product/", { name, categoryId, quantity });
       if (response.status === 200) {
         sendToast({ message: response.data.message, type: "positive" });
         state.products.push(response.data.product)
