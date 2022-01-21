@@ -1,3 +1,4 @@
+import { ExtendedRequest } from './../types/expressExtra';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { User } from "../models/User";
@@ -11,7 +12,7 @@ export const generateAccessToken = (id: number) => {
 
 const SAFE_ROUTES = ['/user/login/', '/user/register/', '/reset/']
 
-export const authenticateToken = (req: Request, res: Response, next) => {
+export const authenticateToken = (req: ExtendedRequest, res: Response, next) => {
   if(SAFE_ROUTES.includes(req.path)) return next();
 
   const authHeader = req.headers['authorization']
@@ -23,7 +24,9 @@ export const authenticateToken = (req: Request, res: Response, next) => {
     if (err) return res.sendStatus(403)
     try {
       //@ts-ignore
-      req.user = (await User.findByPk(userId)).id
+      const user = await User.findByPk(userId)
+      req.user = user.id
+      
       return next()
     } catch (error) {
       return res.sendStatus(403)

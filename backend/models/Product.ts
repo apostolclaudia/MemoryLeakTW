@@ -23,7 +23,7 @@ export const Product: Sequelize.ModelCtor<ProductInterface> = db.define(
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
-        len: [3, 50]
+        len: [1, 50]
       }
     },
     isAvailable: {
@@ -38,7 +38,7 @@ export const Product: Sequelize.ModelCtor<ProductInterface> = db.define(
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
-        len: [3, 50]
+        len: [1, 50]
       }
     },
     claimedBy: {

@@ -23,8 +23,8 @@
 
       <q-input
         outlined
-        v-model="firstName"
-        label="First Name *"
+        v-model="email"
+        label="Email *"
         lazy-rules
         :rules="[
           (val) => (val && val.length > 0) || 'Please type a first name',
@@ -33,8 +33,9 @@
 
       <q-input
         outlined
-        v-model="lastName"
-        label="Last Name *"
+        v-model="password"
+        type="password"
+        label="Password *"
         lazy-rules
         :rules="[(val) => (val && val.length > 0) || 'Please type a last name']"
       />
@@ -50,28 +51,33 @@
 import { defineComponent } from "vue";
 import { ref } from "vue";
 import { useQuasar } from "quasar";
+import { useUser } from "src/module/useUser";
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: "PageAccountInfo",
-  setup() {
+  setup(props, {}, ) {
     const $q = useQuasar();
+    const router = useRouter();
 
-    const username = ref(null);
-    const firstName = ref(null);
-    const lastName = ref(null);
+    const username = ref('');
+    const email = ref('');
+    const password = ref('');
+
+    const {register} = useUser()
+
+    const onSubmit = async () => {
+      const result = await register(username.value, email.value, password.value)
+      if(result) {
+        router.push('/login')
+      }
+    }
 
     return {
       username,
-      firstName,
-      lastName,
-      onSubmit() {
-        $q.notify({
-          color: "green-4",
-          textColor: "white",
-          icon: "cloud_done",
-          message: "Submitted",
-        });
-      },
+      email,
+      password,
+      onSubmit,
     };
   },
 });
