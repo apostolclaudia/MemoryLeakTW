@@ -7,27 +7,42 @@
       class="q-gutter-md"
     >
       <q-input
-        filled
+        outlined
         v-model="name"
-        label="Your name *"
-        hint="Name and surname"
+        label="Product name *"
         lazy-rules
-        :rules="[ val => val && val.length > 0 || 'Please type something']"
+        :rules="[ val => val && val.length > 0 || 'Please type a name']"
       />
 
+      <q-checkbox size="md" keep-color v-model="cbAvailable" label="Available?" color="primary"/>
+
+      <q-input outlined v-model="date" label="Expiration date *" mask="date" :rules="['date']">
+      <template v-slot:append>
+        <q-icon name="event" class="cursor-pointer">
+          <q-popup-proxy ref="qDateProxy" cover transition-show="scale" transition-hide="scale">
+            <q-date v-model="date">
+              <div class="row items-center justify-end">
+                <q-btn v-close-popup label="Close" color="primary" flat />
+              </div>
+            </q-date>
+          </q-popup-proxy>
+        </q-icon>
+      </template>
+    </q-input>
+
       <q-input
-        filled
-        type="number"
-        v-model="age"
-        label="Your age *"
+        outlined
+        v-model="quantity"
+        label="Quantity *"
         lazy-rules
         :rules="[
-          val => val !== null && val !== '' || 'Please type your age',
-          val => val > 0 && val < 100 || 'Please type a real age'
+           val => val && val.length > 0 || 'Please type a quantity'
         ]"
       />
 
-      <q-toggle v-model="accept" label="I accept the license and terms" />
+      <q-select outlined v-model="category" :options="options" label="Category" :rules="[
+        val => val && val.length > 0 || 'Please select a category'
+      ]"/>
 
       <div>
         <q-btn label="Submit" type="submit" color="primary"/>
@@ -48,36 +63,38 @@ export default defineComponent({
     const $q = useQuasar()
 
     const name = ref(null)
-    const age = ref(null)
+    const cbAvailable = ref(false)
+    const date = ref(null)
+    const quantity = ref(null)
+    const category = ref(null)
     const accept = ref(false)
 
     return {
       name,
-      age,
+      cbAvailable,
+      date,
+      quantity,
+      category,
+      options: [
+        'Lactate', 'Carne', 'Oleaginoase', 'Congelate'
+      ],
       accept,
 
       onSubmit () {
-        if (accept.value !== true) {
-          $q.notify({
-            color: 'red-5',
-            textColor: 'white',
-            icon: 'warning',
-            message: 'You need to accept the license and terms first'
-          })
-        }
-        else {
           $q.notify({
             color: 'green-4',
             textColor: 'white',
             icon: 'cloud_done',
             message: 'Submitted'
           })
-        }
       },
 
       onReset () {
         name.value = null
-        age.value = null
+        cbAvailable.value = false
+        date.value = null
+        quantity.value = null
+        category.value = null
         accept.value = false
       }
     }
