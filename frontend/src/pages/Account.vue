@@ -1,8 +1,9 @@
 <template>
   <q-page>
+    <q-layout>
     <q-tabs
         v-model="tab"
-        class="text-primary account-tabs-class row justify-center"
+        class="text-primary account-tabs-class"
       >
         <q-route-tab
           name="account-info"
@@ -21,10 +22,10 @@
           exact
         />
       </q-tabs>
-
     <q-page-container>
       <router-view />
     </q-page-container>
+    </q-layout>
   </q-page>
 </template>
 
@@ -46,7 +47,6 @@ export default defineComponent({
 .account-tabs-class {
   width: 100%;
   max-width: 500px;
-  text-align: center;
 }
 </style>
 
