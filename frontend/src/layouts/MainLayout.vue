@@ -23,7 +23,7 @@
             exact
           />
         <q-tab>
-          <q-btn class="btn-exit" round color="primary" icon="fas fa-sign-out-alt" />
+          <q-btn class="btn-exit" round color="primary" icon="fas fa-sign-out-alt" @click="onLogout()" />
         </q-tab>
         </q-tabs>
       </q-toolbar>
@@ -46,7 +46,7 @@
             v-bind="link"
           />
           <div class="fit row inline justify-center items-center">
-            <q-btn class="btn-exit" round color="primary" icon="fas fa-sign-out-alt" />
+            <q-btn class="btn-exit" @click="onLogout()" round color="primary" icon="fas fa-sign-out-alt" />
           </div>
         </q-list>
       </q-scroll-area>
@@ -75,7 +75,7 @@ export default defineComponent({
   },
 
   setup() {
-    const { getData, state: userState } = useUser();
+    const { getData, state: userState, logout} = useUser();
     const router = useRouter();
     onBeforeMount(async () => {
       if (getJWT()) {
@@ -122,12 +122,18 @@ export default defineComponent({
         link: "/account",
       },
     ];
+
+    const onLogout = () => {
+      logout();
+      router.push('/login')
+    }
     return {
       essentialLinks: linksList,
       drawerOpen,
       toggleDrawer() {
         drawerOpen.value = !drawerOpen.value;
       },
+      onLogout
     };
   },
 });

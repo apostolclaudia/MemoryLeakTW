@@ -36,6 +36,7 @@
 
       <div>
         <q-btn label="Submit" type="submit" color="primary" style="width: 110%"/>
+        <q-btn label="Register" to="/register" color="secondary" style="width: 110%"/>
       </div>
     </q-form>
   </q-page>

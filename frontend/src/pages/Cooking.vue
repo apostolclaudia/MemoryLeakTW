@@ -46,7 +46,7 @@
                   <q-menu cover auto-close>
                     <q-list>
                       <q-item clickable>
-                        <q-item-section>Remove product</q-item-section>
+                        <q-item-section v-if="userState?.user?.id == product.userId">Remove product</q-item-section>
                       </q-item>
                       <q-item clickable>
                         <q-item-section>Share</q-item-section>
