@@ -100,6 +100,7 @@ import { categories } from "src/module/useCategories";
 import { useProducts } from "src/module/useProducts";
 import { ref } from "vue";
 import { defineComponent } from "vue";
+import { date } from "quasar";
 
 export default defineComponent({
   name: "PageAddProduct",

@@ -45,11 +45,13 @@
                 <q-btn color="$secondary" round flat icon="more_vert">
                   <q-menu cover auto-close>
                     <q-list>
-                      <q-item clickable>
-                        <q-item-section v-if="userState?.user?.id == product.userId">Remove product</q-item-section>
+                      <q-item clickable @click="onDelete(product.id)" v-if="userState?.user?.id == product.userId">
+                        <q-item-section >Remove product</q-item-section>
                       </q-item>
                       <q-item clickable>
-                        <q-item-section>Share</q-item-section>
+                        <q-item-section>
+                          Share
+                        </q-item-section>
                       </q-item>
                     </q-list>
                   </q-menu>
@@ -86,6 +88,7 @@
         </q-card>
       </div>
     </div>
+  
   </q-page>
 </template>
 
@@ -105,6 +108,7 @@ export default defineComponent({
       loadProducts,
       claimProduct,
       unclaimProduct,
+      removeProduct,
     } = useProducts();
     const route = useRoute();
     const router = useRouter();
@@ -128,6 +132,10 @@ export default defineComponent({
       await unclaimProduct(productId);
     };
 
+    const onDelete = async (productId: number) =>{
+      await removeProduct(productId);
+    };
+
     return {
       userState,
       productState,
@@ -135,6 +143,7 @@ export default defineComponent({
       username,
       onClaimProduct,
       onUnclaimProduct,
+      onDelete,
     };
   },
 });
