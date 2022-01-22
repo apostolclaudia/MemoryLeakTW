@@ -6,7 +6,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: "", component: () => import("pages/Index.vue") },
-      { path: "/cooking", component: () => import("pages/Cooking.vue") },
+      { path: "/cooking/:username", component: () => import("pages/Cooking.vue") },
       { path: "/friends", component: () => import("pages/Friends.vue"),
         children:[
           { path: ":group", component: () => import("pages/FriendGroup.vue")},
@@ -19,11 +19,16 @@ const routes: RouteRecordRaw[] = [
           ]
       },
       { path: "/group/:group", component: () => import("pages/FriendGroup.vue") },
+    ],
+  },
+  {
+    path: '/',
+    component: () => import('layouts/AuthLayout.vue'),
+    children:[
       { path: "/login", component: () => import("pages/Login.vue") },
       { path: "/register", component: () => import("pages/Register.vue") },
     ],
   },
-
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/Error404.vue'),

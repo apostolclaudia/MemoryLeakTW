@@ -56,7 +56,29 @@
 //@ts-ignore
 import EssentialLink from "components/EssentialLink.vue";
 
-const linksList = [
+
+
+import { defineComponent, ref, onBeforeMount } from "vue";
+import { useUser } from "src/module/useUser";
+
+
+export default defineComponent({
+  name: "MainLayout",
+
+  components: {
+    EssentialLink,
+  },
+
+  setup() {
+    onBeforeMount(() => {
+      
+    })
+    
+
+    const {state: userState} = useUser();
+
+    const drawerOpen = ref(false);
+    const linksList = [
   {
     title: "Home",
     icon: "home",
@@ -65,7 +87,7 @@ const linksList = [
   {
     title: "What's cooking?",
     icon: "fas fa-seedling",
-    link: "/cooking",
+    link: `/cooking/${userState.user? userState.user.username:""}`,
   },
   {
     title: "Friends",
@@ -83,19 +105,6 @@ const linksList = [
     link: "/account",
   },
 ];
-
-import { defineComponent, ref } from "vue";
-
-export default defineComponent({
-  name: "MainLayout",
-
-  components: {
-    EssentialLink,
-  },
-
-  setup() {
-    const drawerOpen = ref(false);
-
     return {
       essentialLinks: linksList,
       drawerOpen,

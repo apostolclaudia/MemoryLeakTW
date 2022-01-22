@@ -8,7 +8,7 @@
       style="background: #ffbdb5"
     >
       <q-card-section>
-        <div class="text-h6">Frigiderul lui Vasile</div>
+        <div class="text-h6">Fridge of {{ userState.user.username }}</div>
       </q-card-section>
     </q-card>
 
@@ -64,13 +64,16 @@
 
 <script>
 import { defineComponent } from "vue";
+import { useUser } from "src/module/useUser";
 
 export default defineComponent({
   name: "PageCooking",
   setup() {
+    const {state: userState} = useUser();
     return {
       lorem:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        userState
     };
   },
 });
