@@ -1,27 +1,29 @@
 <template>
   <q-page>
     <q-layout>
-    <q-tabs
-        v-model="tab"
-        class="text-primary account-tabs-class"
-      >
-        <q-route-tab
-          name="account-info"
-          to="/account-info"
-          icon="fas fa-user"
-          label="Account Info"
-          active-class="text-primary"
-          exact
-        />
-        <q-route-tab
-          name="claimed-products"
-          to="/claimed-products"
-          icon="fas fa-shopping-cart"
-          label="Claimed products"
-          active-class="text-primary"
-          exact
-        />
-      </q-tabs>
+    <div class="fit row inline justify-center items-center">
+      <q-tabs
+          v-model="tab"
+          class="text-primary account-tabs-class"
+        >
+          <q-route-tab
+            name="account-info"
+            to="/account-info"
+            icon="fas fa-user"
+            label="Account Info"
+            active-class="text-primary"
+            exact
+          />
+          <q-route-tab
+            name="claimed-products"
+            to="/claimed-products"
+            icon="fas fa-shopping-cart"
+            label="Claimed products"
+            active-class="text-primary"
+            exact
+          />
+        </q-tabs>
+      </div>
     <q-page-container>
       <router-view />
     </q-page-container>

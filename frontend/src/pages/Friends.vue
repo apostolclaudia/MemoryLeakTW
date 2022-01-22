@@ -37,25 +37,33 @@
     </form>
 
     <div class="fit row inline justify-center items-top">
-      <div class="col-12 offset-2 col-md-4">
-        <q-card flat bordered class="card-class text-center">
-          <q-card-section> @claudiaanic </q-card-section>
-        </q-card>
-      </div>
-
-      <div class="col-12 col-md-4">
-        <q-select
-          class="select-friends-group"
-          outlined
-          v-model="category"
-          label="Category"
-          :options="options"
-          style="width: 130px
+      <q-card flat bordered class="card-class text-center">
+        <q-card-section> @claudiaanic </q-card-section>
+      </q-card>
+    </div>
+    <q-select
+      class="select-friends-group"
+      outlined
+      v-model="category"
+      label="Category"
+      :options="options"
+      style="width: 130px
           height: 100px"
-          behavior="menu"
-        />
-        <q-btn class="btn-add-friend" color="green" label="Add friend" />
-      </div>
+      behavior="menu"
+    />
+
+    <q-btn class="btn-add-friend" color="green" label="Add friend" />
+
+    <q-input
+      class="input-group"
+      outlined
+      v-model="test"
+      label="Group name"
+      style="width: 130px
+            height: 100px"
+    />
+    <div class="col-12 offset-1 col-md-7">
+      <q-btn class="btn-add-friend" color="green" label="Add group"/>
     </div>
 
     <q-btn
@@ -92,7 +100,7 @@ export default defineComponent({
       submitting,
       simulateSubmit,
       category,
-      options: ["Vegetarieni", "Zacusa lovers", "New group"],
+      options: ["Vegetarieni", "Zacusa lovers"],
     };
   },
 });
@@ -100,11 +108,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .btn-friends {
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
 .search-class {
-  margin-top: 50px;
+  margin-top: 10px;
   width: 65%;
   background: white;
 }
@@ -114,6 +122,10 @@ export default defineComponent({
 }
 
 .btn-add-friend {
+  margin-top: 25px;
+}
+
+.input-group {
   margin-top: 25px;
 }
 

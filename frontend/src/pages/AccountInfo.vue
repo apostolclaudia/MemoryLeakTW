@@ -19,6 +19,7 @@
         v-model="username"
         label="Username *"
         lazy-rules
+        class="fw"
         :rules="[ val => val && val.length > 0 || 'Please type a name']"
       />
 
@@ -27,6 +28,7 @@
         v-model="firstName"
         label="First Name *"
         lazy-rules
+        class="fw"
         :rules="[
            val => val && val.length > 0 || 'Please type a first name'
         ]"
@@ -37,13 +39,14 @@
         v-model="lastName"
         label="Last Name *"
         lazy-rules
+        class="fw"
         :rules="[
            val => val && val.length > 0 || 'Please type a last name'
         ]"
       />
 
       <div>
-        <q-btn label="Submit" type="submit" color="primary" />
+        <q-btn label="Submit" type="submit" color="primary" style="width: 110%"/>
       </div>
     </q-form>
   </q-page>
@@ -88,5 +91,9 @@ export default defineComponent({
   max-width: 400px;
   border-color: $secondary;
   border-width: 2.5px;
+}
+
+.fw {
+  width: 100%;
 }
 </style>
