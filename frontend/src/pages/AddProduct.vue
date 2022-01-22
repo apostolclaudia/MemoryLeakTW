@@ -96,6 +96,7 @@
 
 <script>
 import { useQuasar } from "quasar";
+import { categories } from "src/module/useCategories";
 import { useProducts } from "src/module/useProducts";
 import { ref } from "vue";
 import { defineComponent } from "vue";
@@ -109,7 +110,7 @@ export default defineComponent({
     const cbAvailable = ref(false);
     const date = ref("");
     const quantity = ref("");
-    const options = ["Lactate", "Carne", "Oleaginoase", "Congelate"];
+    const options = categories
     const category = ref(options[0]);
 
     const { addProduct } = useProducts();
@@ -118,7 +119,9 @@ export default defineComponent({
       await addProduct(
         name.value,
         options.indexOf(category.value) + 1,
-        quantity.value
+        quantity.value,
+        date.value,
+        cbAvailable.value
       );
     };
 

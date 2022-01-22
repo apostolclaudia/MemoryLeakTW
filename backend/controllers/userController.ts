@@ -1,3 +1,4 @@
+import { ExtendedRequest } from './../types/expressExtra';
 import { Request, Response } from "express";
 import { Op } from "sequelize";
 import { Product } from "../models/Product";
@@ -15,9 +16,9 @@ export const userController = {
       return error500(res, error);
     }
   },
-  getById: async (req: Request, res: Response) => {
+  getById: async (req: ExtendedRequest, res: Response) => {
     try {
-      const id: number = parseInt(req.params.id);
+      const id: number = req.user
       if (!id) {
         return res.sendStatus(400);
       }

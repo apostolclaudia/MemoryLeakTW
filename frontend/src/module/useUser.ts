@@ -1,6 +1,6 @@
-import { setJWT } from "./useJWT";
+import { getJWT, setJWT } from "./useJWT";
 import { sendToast } from "./useToast";
-import { post } from "./useAxios";
+import { get, post } from "./useAxios";
 import { reactive } from "vue";
 
 export interface User {
@@ -12,10 +12,12 @@ export interface User {
 
 interface stateInterface {
   user: User | null;
+  friends: User[];
 }
 
 const state = reactive<stateInterface>({
   user: null,
+  friends: []
 });
 
 export const useUser = () => {
@@ -58,6 +60,8 @@ export const useUser = () => {
 
     if(response.status === 200) {
       setJWT(response.data.access_token)
+      localStorage.setItem('username', response.data.user.username)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
       state.user = response.data.user;
       return true
     } else {
@@ -66,5 +70,22 @@ export const useUser = () => {
     }
   }
 
-  return { state, register, login };
+  const getFriends = () => {
+
+  }
+
+  const getData = async () => {
+    const token = getJWT();
+    if(token) {
+      const response = await get('user/getById/')
+      if(response.status === 200) {
+        state.user = response.data
+        return true
+      } else {
+        return false;
+      }
+    }
+  }
+
+  return { state, register, login, getData };
 };
