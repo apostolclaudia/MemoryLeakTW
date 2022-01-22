@@ -16,7 +16,7 @@ export interface GroupInterface extends Sequelize.Model, GroupAttributes {
   removeUsers: (users: AddUsers) => Promise<void>
 }
 
-const UserGroup = db.define("user_group", {});
+export const UserGroup = db.define("user_group", {});
 
 export const Group: Sequelize.ModelCtor<GroupInterface> = db.define("group", {
   name: {

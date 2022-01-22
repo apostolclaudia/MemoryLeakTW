@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import { error500 } from "./../utils/serverMessages";
 import { User } from "./../models/User";
 import { Group } from "./../models/Group";
@@ -13,13 +14,19 @@ export const groupController = {
       return error500(res, error);
     }
   },
-  getById: async (req: Request, res: Response) => {
+  getByName: async (req: ExtendedRequest, res: Response) => {
     try {
-      const id = parseInt(req.params.id);
-      if (!id) {
+      const name = req.params.name;
+      if (!name) {
         return res.sendStatus(400);
       }
-      const group = await Group.findByPk(id, { include: [User] });
+      const group = await Group.findOne({
+        where: {
+          createdBy: req.user,
+          name
+        },
+        include: [User],
+      });
       if (!group) {
         return res.sendStatus(404);
       }
@@ -35,7 +42,7 @@ export const groupController = {
       if (!name) {
         return res.sendStatus(400);
       }
-      const group = await Group.create({...req.body, createdBy: req.user });
+      const group = await Group.create({ ...req.body, createdBy: req.user });
 
       return res.status(200).json({ group, message: "Group created!" });
     } catch (error) {
@@ -56,7 +63,7 @@ export const groupController = {
       if (!group) {
         return res.sendStatus(404);
       }
-      if(group.createdBy !== req.user) {
+      if (group.createdBy !== req.user) {
         return res.sendStatus(403);
       }
       group.name = name;
@@ -86,23 +93,40 @@ export const groupController = {
       return error500(res, error);
     }
   },
-  addUsersToGroup: async (req: Request, res: Response) => {
+  addUsersToGroup: async (req: ExtendedRequest, res: Response) => {
     try {
-      const id = parseInt(req.params.id);
-      if (!id) {
+      const name = req.params.name;
+      if (!name) {
         return res.sendStatus(400);
       }
-      const group = await Group.findByPk(id);
+      console.log("ss");
+
+      const group = await Group.findOne({
+        where: {
+          createdBy: req.user,
+          name,
+        },
+      });
       if (!group) {
         return res.sendStatus(404);
       }
-      const { users }: {users: number[]} = req.body;
+      const { users }: { users: number[] } = req.body;
+
       if (!users) {
         return res.sendStatus(400);
       }
-      await group.addUsers(users);
 
-      return res.status(200).json({message: "Friends added!"})
+      await group.addUsers(users);
+      const usersObj = await User.findAll({
+        where: {
+          id: {
+            [Op.in]: users,
+          },
+        },
+      });
+      return res
+        .status(200)
+        .json({ message: "Friends added!", users: usersObj });
     } catch (error) {
       return error500(res, error);
     }
@@ -117,15 +141,14 @@ export const groupController = {
       if (!group) {
         return res.sendStatus(404);
       }
-      const { users }: {users: number[]} = req.body;
+      const { users }: { users: number[] } = req.body;
       if (!users) {
         return res.sendStatus(400);
       }
-      await group.removeUsers(users)
-      return res.status(200).json({message: "Friends removed!"})
+      await group.removeUsers(users);
+      return res.status(200).json({ message: "Friends removed!" });
     } catch (error) {
       return error500(res, error);
     }
-  }
-
+  },
 };
