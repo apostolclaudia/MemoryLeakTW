@@ -6,11 +6,27 @@ import { User } from "../models/User";
 import { customErrorMessage, error500 } from "../utils/serverMessages";
 import bcrypt from 'bcryptjs';
 import { generateAccessToken } from "../utils/jwt";
+import { Group } from '../models/Group';
 
 export const userController = {
   getAll: async (req: Request, res: Response) => {
     try {
       const users = await User.findAll();
+      return res.status(200).send(users);
+    } catch (error) {
+      return error500(res, error);
+    }
+  },
+  findAll: async (req: Request, res: Response) => {
+    try {
+      const query = req.body.query
+      const users = await User.findAll({
+        where: {
+          username: {
+            [Op.like]: `%${query}%`
+          }
+        }
+      });
       return res.status(200).send(users);
     } catch (error) {
       return error500(res, error);
@@ -22,11 +38,16 @@ export const userController = {
       if (!id) {
         return res.sendStatus(400);
       }
-      const user = await User.findByPk(id, {include: [Product]});
+      const user = await User.findByPk(id, {include: [Product, Group]});
       if (!user) {
         return res.sendStatus(404);
       }
-      return res.status(200).json(user);
+      const groups = await Group.findAll({
+        where: {
+          createdBy: req.user
+        }
+      })
+      return res.status(200).json({user, groups: groups.map(gr => gr.name)});
     } catch (error) {
       return error500(res, error);
     }
