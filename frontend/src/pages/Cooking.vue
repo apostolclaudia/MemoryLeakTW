@@ -45,8 +45,8 @@
                 <q-btn color="$secondary" round flat icon="more_vert">
                   <q-menu cover auto-close>
                     <q-list>
-                      <q-item clickable @click="onDelete(product.id)">
-                        <q-item-section>Remove product</q-item-section>
+                      <q-item clickable @click="onDelete(product.id)" v-if="userState?.user?.id == product.userId">
+                        <q-item-section >Remove product</q-item-section>
                       </q-item>
                       <q-item clickable>
                         <q-item-section>

@@ -4,6 +4,7 @@ import { productController } from "../controllers/productController";
 export const productRouter = express.Router();
 
 productRouter.get('', productController.getAll)
+productRouter.get('/claimed', productController.claimed)
 productRouter.get('/:id/', productController.getbyId)
 productRouter.post('', productController.addProduct)
 productRouter.patch('/:id/', productController.updateProduct)

@@ -6,7 +6,6 @@
         Why waste food when you can make something new out of it?
       </q-card-section>
     </q-card>
-    <q-btn class="btn-main" outline color="secondary" label="What's cooking?" />
   </q-page>
 </template>
 

@@ -45,6 +45,7 @@
 
       <div>
         <q-btn label="Submit" type="submit" color="primary" style="width: 110%"/>
+        <q-btn label="Login" to="/login" color="secondary" style="width: 110%"/>
       </div>
     </q-form>
   </q-page>

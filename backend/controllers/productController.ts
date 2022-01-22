@@ -14,6 +14,18 @@ export const productController = {
       return error500(res, error);
     }
   },
+  claimed: async (req: ExtendedRequest, res: Response) => {
+    try {
+      const products = await Product.findAll({
+        where: {
+          claimedBy: req.user
+        }
+      });
+      return res.json(products);
+    } catch (error) {
+      return error500(res, error);
+    }
+  },
   getbyId: async (req: Request, res: Response) => {
     try {
       const id: number = parseInt(req.params.id);
