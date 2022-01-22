@@ -1,3 +1,4 @@
+import { getJWT } from './../module/useJWT';
 import { route } from 'quasar/wrappers';
 import {
   createMemoryHistory,
@@ -22,6 +23,17 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(
       process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE
     ),
+  });
+
+  Router.beforeEach(async (to, from, next) => {
+    let hasCredentials = getJWT();
+    let publicRoutes = ["login", "register", "resetPassword", "resetPasswordConfirm", "getStarted"];
+
+    if (publicRoutes.includes(to.name as string) && hasCredentials) {
+      next({ name: "home" });
+    } else if (!publicRoutes.includes(to.name as string) && !hasCredentials) {
+      next({ name: "login", query: { redirect: to.path } });
+    } else next();
   });
 
   return Router;

@@ -19,7 +19,7 @@ export const get = async (url: string) => {
   return response;
 };
 
-export const post = async (url: string, body: {}) => {
+export const post = async (url: string, body?: {}) => {
   const response = await axiosInstance.post(url, body, {
     headers: {
       authorization: `BEARER ${getJWT()}`,

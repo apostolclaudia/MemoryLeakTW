@@ -56,11 +56,10 @@
 //@ts-ignore
 import EssentialLink from "components/EssentialLink.vue";
 
-
-
 import { defineComponent, ref, onBeforeMount } from "vue";
 import { useUser } from "src/module/useUser";
-
+import { useRouter } from "vue-router";
+import { getJWT } from "src/module/useJWT";
 
 export default defineComponent({
   name: "MainLayout",
@@ -70,41 +69,53 @@ export default defineComponent({
   },
 
   setup() {
-    onBeforeMount(() => {
-      
-    })
-    
+    const { getData, state: userState } = useUser();
+    const router = useRouter();
+    onBeforeMount(async () => {
+      if (getJWT()) {
+        const response = await getData();
+        if (!response) {
+          router.push("/login");
+        }
+      }
+    });
 
-    const {state: userState} = useUser();
 
+    const usernameFromStorage = localStorage.getItem("username");
     const drawerOpen = ref(false);
     const linksList = [
-  {
-    title: "Home",
-    icon: "home",
-    link: "/",
-  },
-  {
-    title: "What's cooking?",
-    icon: "fas fa-seedling",
-    link: `/cooking/${userState.user? userState.user.username:""}`,
-  },
-  {
-    title: "Friends",
-    icon: "fas fa-handshake",
-    link: "/friends",
-  },
-  {
-    title: "Add product",
-    icon: "fas fa-store",
-    link: "/add-product",
-  },
-  {
-    title: "Account",
-    icon: "fas fa-user",
-    link: "/account",
-  },
-];
+      {
+        title: "Home",
+        icon: "home",
+        link: "/",
+      },
+      {
+        title: "What's cooking?",
+        icon: "fas fa-seedling",
+        link: `/cooking/${
+          userState.user
+            ? userState.user.username
+            : usernameFromStorage
+            ? usernameFromStorage
+            : ""
+        }`,
+      },
+      {
+        title: "Friends",
+        icon: "fas fa-handshake",
+        link: "/friends",
+      },
+      {
+        title: "Add product",
+        icon: "fas fa-store",
+        link: "/add-product",
+      },
+      {
+        title: "Account",
+        icon: "fas fa-user",
+        link: "/account",
+      },
+    ];
     return {
       essentialLinks: linksList,
       drawerOpen,

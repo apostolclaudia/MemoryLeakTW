@@ -12,5 +12,5 @@ export const customErrorMessage = (
   error: string
 ) => {
   res.statusCode = status
-  return res.json({ error });
+  return res.status(status).json({ error });
 };

@@ -1,8 +1,17 @@
 import { sendToast } from "./useToast";
-import { get, post } from "./useAxios";
+import { get, post, remove } from "./useAxios";
 import { reactive } from "vue";
 
-interface Product {}
+interface Product {
+  id: number;
+  name: string;
+  isAvailable: boolean;
+  expirationDate: Date | null;
+  quantity: string;
+  claimedBy: number | null;
+  categoryId: number;
+  userId: number;
+}
 
 interface StateInterface {
   products: Product[];
@@ -27,17 +36,68 @@ export const useProducts = () => {
   const addProduct = async (
     name: string,
     categoryId: number,
-    quantity: string
+    quantity: string,
+    expirationDate: string,
+    isAvailable: Boolean,
   ) => {
     try {
-      const response = await post("/product/", { name, categoryId, quantity });
+      const response = await post("/product/", { name, categoryId, quantity, expirationDate, isAvailable });
       if (response.status === 200) {
         sendToast({ message: response.data.message, type: "positive" });
-        state.products.push(response.data.product)
+        state.products.push(response.data.product);
       } else {
         sendToast({ message: response.data.error });
       }
     } catch (error) {}
   };
-  return { state, getProductsForUser, addProduct };
+
+  const loadProducts = async (username: string) => {
+    try {
+      const response = await get(`product/all/${username}`);
+      if (response.status === 200) {
+        state.products = response.data;
+        return true;
+      } else {
+        sendToast({ message: response.data.error });
+      }
+    } catch (error) {
+      return false
+    }
+  };
+
+  const claimProduct = async (productId: number, userId: number) => {
+    try {
+      const response = await post(`/product/claim/${productId}`)
+      if(response.status === 200) {
+        sendToast({ message: response.data.message, type: 'positive' });
+        state.products.map(p => {
+          if(p.id === productId) {
+            p.claimedBy = userId
+          }
+        })
+        return true;
+      }
+    } catch (error) {
+      return false
+    }
+  }
+
+  const unclaimProduct = async (productId: number) => {
+    try {
+      const response = await remove(`/product/claim/${productId}`)
+      if(response.status === 200) {
+        sendToast({ message: response.data.message, type: 'positive' });
+        state.products.map(p => {
+          if(p.id === productId) {
+            p.claimedBy = null
+          }
+        })
+        return true;
+      }
+    } catch (error) {
+      return false
+    }
+  }
+
+  return { state, getProductsForUser, addProduct, loadProducts, claimProduct, unclaimProduct};
 };

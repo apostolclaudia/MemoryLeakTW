@@ -1,3 +1,4 @@
+import { customErrorMessage } from './../utils/serverMessages';
 import { Response, Request } from "express";
 import { Product } from "../models/Product";
 import { User } from "../models/User";
@@ -69,6 +70,9 @@ export const productController = {
           username,
         },
       });
+      if(!user) {
+        return customErrorMessage(res, 404, 'No user found')
+      }
       const products = await Product.findAll({
         where: {
           userId: user.id
@@ -134,7 +138,7 @@ export const productController = {
       if (!id) {
         return res.sendStatus(400);
       }
-      const product = await Product.findByPk(req.params.id);
+      const product = await Product.findByPk(id);
       if (!product) {
         return res.sendStatus(404);
       }
@@ -146,6 +150,7 @@ export const productController = {
       }
 
       product.claimedBy = req.user;
+      product.isAvailable = false;
       await product.save();
 
       return res.status(200).json({ message: "Product claimed!" });
@@ -173,6 +178,7 @@ export const productController = {
       }
 
       product.claimedBy = null;
+      product.isAvailable = true;
       await product.save();
 
       return res.status(200).json({ message: "Product unclaimed" });
