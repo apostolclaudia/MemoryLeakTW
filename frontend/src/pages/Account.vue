@@ -24,6 +24,7 @@
           />
         </q-tabs>
       </div>
+
     <q-page-container>
       <router-view />
     </q-page-container>

@@ -99,5 +99,20 @@ export const useProducts = () => {
     }
   }
 
-  return { state, getProductsForUser, addProduct, loadProducts, claimProduct, unclaimProduct};
+  const removeProduct = async (productId: number) =>{
+    try{
+      const response = await remove(`/product/${productId}`)
+      if (response.status === 200) {
+        sendToast({ message: response.data.message, type: 'positive' });
+        state.products = state.products.filter(p => p.id != productId);
+        return true;
+      } else {
+        sendToast({ type: "negative", message: response.data.error });
+      }
+    }catch (error) {
+      return false
+    }
+  }
+
+  return { state, getProductsForUser, addProduct, loadProducts, claimProduct, unclaimProduct, removeProduct};
 };
