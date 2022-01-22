@@ -22,6 +22,9 @@
             active-class="text-primary"
             exact
           />
+        <q-tab>
+          <q-btn class="btn-exit" round color="primary" icon="fas fa-sign-out-alt" />
+        </q-tab>
         </q-tabs>
       </q-toolbar>
       <div class="stroke-menu"></div>
@@ -42,6 +45,9 @@
             :key="link.title"
             v-bind="link"
           />
+          <div class="fit row inline justify-center items-center">
+            <q-btn class="btn-exit" round color="primary" icon="fas fa-sign-out-alt" />
+          </div>
         </q-list>
       </q-scroll-area>
     </q-drawer>

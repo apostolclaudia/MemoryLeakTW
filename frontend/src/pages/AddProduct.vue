@@ -23,6 +23,7 @@
         v-model="name"
         label="Product name *"
         lazy-rules
+        class="fw"
         :rules="[(val) => (val && val.length > 0) || 'Please type a name']"
       />
 
@@ -31,6 +32,7 @@
         keep-color
         v-model="cbAvailable"
         label="Available?"
+        class="fw"
         color="primary"
       />
 
@@ -39,6 +41,7 @@
         v-model="date"
         label="Expiration date *"
         mask="date"
+        class="fw"
         :rules="['date']"
       >
         <template v-slot:append>
@@ -51,7 +54,7 @@
             >
               <q-date v-model="date">
                 <div class="row items-center justify-end">
-                  <q-btn v-close-popup label="Close" color="primary" flat />
+                  <q-btn v-close-popup label="Close" color="primary" flat class="fw"/>
                 </div>
               </q-date>
             </q-popup-proxy>
@@ -64,6 +67,7 @@
         v-model="quantity"
         label="Quantity *"
         lazy-rules
+        class="fw"
         :rules="[(val) => (val && val.length > 0) || 'Please type a quantity']"
       />
 
@@ -72,21 +76,20 @@
         v-model="category"
         :options="options"
         label="Category"
+        class="fw"
         :rules="[
           (val) => (val && val.length > 0) || 'Please select a category',
         ]"
       />
 
-      <div>
-        <q-btn label="Submit" type="submit" color="primary" />
         <q-btn
           label="Reset"
           type="reset"
           color="primary"
           flat
-          class="q-ml-sm"
+          class="q-ml fw"
         />
-      </div>
+        <q-btn label="Submit" type="submit" color="primary" class="fw"/>
     </q-form>
   </q-page>
 </template>
@@ -146,5 +149,8 @@ export default defineComponent({
   max-width: 400px;
   border-color: $secondary;
   border-width: 2.5px;
+}
+.fw {
+  width: 100%;
 }
 </style>

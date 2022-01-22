@@ -18,6 +18,7 @@
         v-model="username"
         label="Username *"
         lazy-rules
+        style="width: 100%"
         :rules="[(val) => (val && val.length > 0) || 'Please type a name']"
       />
 
@@ -26,6 +27,7 @@
         v-model="email"
         label="Email *"
         lazy-rules
+        style="width: 100%"
         :rules="[
           (val) => (val && val.length > 0) || 'Please type a first name',
         ]"
@@ -37,11 +39,12 @@
         type="password"
         label="Password *"
         lazy-rules
+        style="width: 100%"
         :rules="[(val) => (val && val.length > 0) || 'Please type a last name']"
       />
 
       <div>
-        <q-btn label="Submit" type="submit" color="primary" />
+        <q-btn label="Submit" type="submit" color="primary" style="width: 110%"/>
       </div>
     </q-form>
   </q-page>
