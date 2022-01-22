@@ -2,7 +2,7 @@ import { sendToast } from "./useToast";
 import { get, post, remove } from "./useAxios";
 import { reactive } from "vue";
 
-interface Product {
+export interface Product {
   id: number;
   name: string;
   isAvailable: boolean;
